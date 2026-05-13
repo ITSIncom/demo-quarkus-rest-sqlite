@@ -1,4 +1,4 @@
-package it.itsincom.entity;
+package it.itsincom.persistence.entity;
 
 import jakarta.persistence.*;
 

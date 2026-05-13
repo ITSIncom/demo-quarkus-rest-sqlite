@@ -1,4 +1,4 @@
-package it.itsincom.model;
+package it.itsincom.web.model;
 
 public class LoginRequest {
     public String username;

@@ -1,7 +1,7 @@
-package it.itsincom.resource;
+package it.itsincom.web;
 
-import it.itsincom.entity.Item;
-import it.itsincom.repository.ItemRepository;
+import it.itsincom.persistence.entity.Item;
+import it.itsincom.persistence.repository.ItemRepository;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;

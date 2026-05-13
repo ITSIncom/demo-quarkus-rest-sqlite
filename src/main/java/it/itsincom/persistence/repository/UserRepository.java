@@ -1,7 +1,7 @@
-package it.itsincom.repository;
+package it.itsincom.persistence.repository;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
-import it.itsincom.entity.User;
+import it.itsincom.persistence.entity.User;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped

@@ -1,9 +1,9 @@
-package it.itsincom.resource;
+package it.itsincom.web;
 
 import io.smallrye.jwt.build.Jwt;
-import it.itsincom.entity.User;
-import it.itsincom.model.LoginRequest;
-import it.itsincom.repository.UserRepository;
+import it.itsincom.persistence.entity.User;
+import it.itsincom.web.model.LoginRequest;
+import it.itsincom.persistence.repository.UserRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
