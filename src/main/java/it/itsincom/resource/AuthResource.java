@@ -3,6 +3,8 @@ package it.itsincom.resource;
 import io.smallrye.jwt.build.Jwt;
 import it.itsincom.entity.User;
 import it.itsincom.model.LoginRequest;
+import it.itsincom.repository.UserRepository;
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -19,6 +21,9 @@ import java.util.Set;
 @Consumes(MediaType.APPLICATION_JSON)
 public class AuthResource {
 
+    @Inject
+    UserRepository userRepository;
+
     @ConfigProperty(name = "mp.jwt.verify.issuer")
     String issuer;
 
@@ -26,7 +31,7 @@ public class AuthResource {
     @Path("/register")
     @Transactional
     public Response register(LoginRequest req) {
-        if (User.findByUsername(req.username) != null) {
+        if (userRepository.findByUsername(req.username) != null) {
             return Response.status(Response.Status.CONFLICT)
                     .entity("{\"error\":\"username already taken\"}")
                     .build();
@@ -35,14 +40,14 @@ public class AuthResource {
         user.username = req.username;
         user.passwordHash = hash(req.password);
         user.role = "user";
-        user.persist();
+        userRepository.persist(user);
         return Response.status(Response.Status.CREATED).build();
     }
 
     @POST
     @Path("/login")
     public Response login(LoginRequest req) {
-        User user = User.findByUsername(req.username);
+        User user = userRepository.findByUsername(req.username);
         if (user == null || !user.passwordHash.equals(hash(req.password))) {
             return Response.status(Response.Status.UNAUTHORIZED)
                     .entity("{\"error\":\"invalid credentials\"}")

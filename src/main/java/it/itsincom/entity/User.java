@@ -1,13 +1,14 @@
 package it.itsincom.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "users")
-public class User extends PanacheEntity {
+public class User {
+
+    @Id
+    @GeneratedValue
+    public Long id;
 
     @Column(nullable = false, unique = true)
     public String username;
@@ -17,8 +18,4 @@ public class User extends PanacheEntity {
 
     @Column(nullable = false)
     public String role;
-
-    public static User findByUsername(String username) {
-        return find("username", username).firstResult();
-    }
 }

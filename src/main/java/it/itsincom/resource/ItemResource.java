@@ -1,7 +1,9 @@
 package it.itsincom.resource;
 
 import it.itsincom.entity.Item;
+import it.itsincom.repository.ItemRepository;
 import jakarta.annotation.security.RolesAllowed;
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -15,15 +17,18 @@ import java.util.List;
 @RolesAllowed("user")
 public class ItemResource {
 
+    @Inject
+    ItemRepository itemRepository;
+
     @GET
     public List<Item> list() {
-        return Item.listAll();
+        return itemRepository.listAll();
     }
 
     @GET
     @Path("/{id}")
     public Item get(@PathParam("id") Long id) {
-        Item item = Item.findById(id);
+        Item item = itemRepository.findById(id);
         if (item == null) throw new NotFoundException();
         return item;
     }
@@ -31,7 +36,7 @@ public class ItemResource {
     @POST
     @Transactional
     public Response create(Item item) {
-        item.persist();
+        itemRepository.persist(item);
         return Response.status(Response.Status.CREATED).entity(item).build();
     }
 
@@ -39,7 +44,7 @@ public class ItemResource {
     @Path("/{id}")
     @Transactional
     public Item update(@PathParam("id") Long id, Item updated) {
-        Item item = Item.findById(id);
+        Item item = itemRepository.findById(id);
         if (item == null) throw new NotFoundException();
         item.name = updated.name;
         item.description = updated.description;
@@ -50,7 +55,7 @@ public class ItemResource {
     @Path("/{id}")
     @Transactional
     public Response delete(@PathParam("id") Long id) {
-        boolean deleted = Item.deleteById(id);
+        boolean deleted = itemRepository.deleteById(id);
         if (!deleted) throw new NotFoundException();
         return Response.noContent().build();
     }
